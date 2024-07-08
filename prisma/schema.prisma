@@ -12,3 +12,104 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum ROLE {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum DELIVERY_STATUS {
+  Shipped
+  Delivered
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String
+  password  String
+  photo     String
+  role      ROLE      @default(USER)
+  products  Product[]
+  isDelete  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+  Order     Order[]
+
+  @@unique([email])
+  @@index([email])
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  products  Product[]
+  isDelete  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+}
+
+model Variant {
+  id            String    @id @default(uuid())
+  mg            Int
+  mainPrice     Int
+  discountPrice Int
+  products      Product[]
+  isDelete      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updateAt      DateTime  @updatedAt
+}
+
+model Product {
+  id             String     @id @default(uuid())
+  name           String
+  material       String
+  companyName    String
+  capsulPerStrip Int
+  category       Category   @relation(fields: [categoryId], references: [id])
+  categoryId     String
+  description    String
+  variants       Variant[]
+  wonner         User?      @relation(fields: [userId], references: [id])
+  userId         String?
+  stock          Stock      @relation(fields: [stockId], references: [id])
+  stockId        String     @unique
+  isDeleted      Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updateAt       DateTime   @updatedAt
+  Suborder       Suborder[]
+}
+
+model Stock {
+  id        String   @id @default(uuid())
+  quantity  Int
+  isDelete  Boolean  @default(false)
+  product   Product?
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model Suborder {
+  id         String   @id @default(uuid())
+  product    Product  @relation(fields: [productId], references: [id])
+  quantity   Int
+  totalPrice Int
+  productId  String
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    String   @unique
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
+}
+
+model Order {
+  id             String          @id @default(uuid())
+  suborders      Suborder[]
+  suborderId     String
+  user           User            @relation(fields: [userId], references: [id])
+  userId         String
+  paymentStatus  Boolean         @default(false)
+  deliveryStatus DELIVERY_STATUS @default(Shipped)
+  createdAt      DateTime        @default(now())
+  updateAt       DateTime        @updatedAt
+}
