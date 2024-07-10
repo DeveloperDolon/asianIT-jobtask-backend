@@ -47,4 +47,17 @@ const getAllUser = catchAsync(async (req, res) => {
   });
 });
 
-export const UserController = { createUser, loginUser, getAllUser };
+const updateUser = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const result = await UserServices.updateUserIntoDB(payload, id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully!',
+    data: result,
+  });
+});
+
+export const UserController = { createUser, loginUser, getAllUser, updateUser };

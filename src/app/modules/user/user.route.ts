@@ -11,4 +11,6 @@ router.put('/login', UserController.loginUser);
 
 router.get('/', auth('SUPER_ADMIN'), UserController.getAllUser);
 
+router.put('/:id', auth('SUPER_ADMIN'), UserController.updateUser);
+
 export const UserRoute = router;
