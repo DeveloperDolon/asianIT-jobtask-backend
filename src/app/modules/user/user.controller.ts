@@ -16,4 +16,8 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-export const UserController = { createUser };
+const loginUser = catchAsync(async (req, res) => {
+  const result = await UserServices.loginUserFromDB(req.body);
+});
+
+export const UserController = { createUser, loginUser };

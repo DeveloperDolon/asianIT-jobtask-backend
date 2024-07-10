@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post('/sign-up', upload.single('photo'), UserController.createUser);
 
+router.put('/login', UserController.loginUser);
+
 export const UserRoute = router;

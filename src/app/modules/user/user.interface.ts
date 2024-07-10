@@ -6,3 +6,8 @@ export default interface TUser {
   role: 'USER' | 'ADMIN' | 'SUPER_ADMIN';
   isDelete: boolean;
 }
+
+export interface TLoginUser {
+  email: string;
+  password: string;
+}
