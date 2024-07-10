@@ -26,8 +26,18 @@ const getSingleCategoryFromDB = async (id: string) => {
   return result;
 };
 
+const deleteCategoryIntoDB = async (id: string) => {
+  const result = await prisma.category.update({
+    where: { id },
+    data: { isDelete: true },
+  });
+
+  return result;
+};
+
 export const CategoryServices = {
   createCategoryIntoDB,
   getAllCategoryFromDB,
   getSingleCategoryFromDB,
+  deleteCategoryIntoDB,
 };
