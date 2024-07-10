@@ -20,4 +20,10 @@ router.delete(
   CategoryController.deleteCategory,
 );
 
+router.put(
+  '/:id',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  CategoryController.updateCategory,
+);
+
 export const CategoryRouter = router;

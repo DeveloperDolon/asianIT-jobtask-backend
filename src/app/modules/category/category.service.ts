@@ -35,9 +35,19 @@ const deleteCategoryIntoDB = async (id: string) => {
   return result;
 };
 
+const updateCategoryIntoDB = async (payload: Partial<Category>, id: string) => {
+  const result = await prisma.category.update({
+    where: { id },
+    data: payload,
+  });
+
+  return result;
+};
+
 export const CategoryServices = {
   createCategoryIntoDB,
   getAllCategoryFromDB,
   getSingleCategoryFromDB,
   deleteCategoryIntoDB,
+  updateCategoryIntoDB,
 };
