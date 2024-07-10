@@ -35,11 +35,11 @@ const loginUserFromDB = async (payload: TLoginUser) => {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Your account is blocked!');
   }
 
-  await bcrypt.compare(payload?.password, user?.password, (err, result) => {
-    if (err) {
-      throw new AppError(httpStatus.FORBIDDEN, 'Password not matched!');
-    }
-  });
+  const isMatched = await bcrypt.compare(payload?.password, user?.password);
+
+  if (!isMatched) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User password is not matched!');
+  }
 
   const jwtPayload = {
     userId: user?.id,
