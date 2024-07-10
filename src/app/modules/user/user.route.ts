@@ -13,4 +13,8 @@ router.get('/', auth('SUPER_ADMIN'), UserController.getAllUser);
 
 router.put('/:id', auth('SUPER_ADMIN'), UserController.updateUser);
 
+router.get('/:id', auth('SUPER_ADMIN'), UserController.getSingleUser);
+
+router.delete('/:id', auth('SUPER_ADMIN'), UserController.deleteUser);
+
 export const UserRoute = router;

@@ -65,7 +65,9 @@ const loginUserFromDB = async (payload: TLoginUser) => {
 };
 
 const getAllUsersFromDB = async () => {
-  const result = await prisma.user.findMany();
+  const result = await prisma.user.findMany({
+    where: { isDelete: false },
+  });
 
   return result;
 };
@@ -79,9 +81,28 @@ const updateUserIntoDB = async (payload: Partial<TUser>, id: string) => {
   return result;
 };
 
+const getSingleUserFromDB = async (id: string) => {
+  const result = await prisma.user.findUnique({
+    where: { id: id },
+  });
+
+  return result;
+};
+
+const deleteUserIntoDB = async (id: string) => {
+  const result = await prisma.user.update({
+    where: { id: id },
+    data: { isDelete: true },
+  });
+
+  return result;
+};
+
 export const UserServices = {
   createUserIntoDB,
   loginUserFromDB,
   getAllUsersFromDB,
   updateUserIntoDB,
+  getSingleUserFromDB,
+  deleteUserIntoDB,
 };
