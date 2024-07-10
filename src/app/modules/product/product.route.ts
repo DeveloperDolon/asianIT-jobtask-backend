@@ -16,4 +16,16 @@ router.get(
   ProductController.getUsersProduct,
 );
 
+router.delete(
+  '/:id',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  ProductController.deleteProduct,
+);
+
+router.put(
+  '/:id',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  ProductController.updateProduct,
+);
+
 export const ProductRouter = router;

@@ -47,9 +47,36 @@ const getUsersProduct = catchAsync(async (req, res) => {
   });
 });
 
+const deleteProduct = catchAsync(async (req, res) => {
+  const result = await ProductServices.deleteProductFromDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Product deleted successfully!',
+    data: result,
+  });
+});
+
+const updateProduct = catchAsync(async (req, res) => {
+  const result = await ProductServices.updateProductIntoDB(
+    req.body,
+    req.params.id,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Product updated successfully!',
+    data: result,
+  });
+});
+
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   getUsersProduct,
+  deleteProduct,
+  updateProduct,
 };

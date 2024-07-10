@@ -34,9 +34,29 @@ const getUsersProductFromDB = async (userId: string) => {
   return result;
 };
 
+const deleteProductFromDB = async (id: string) => {
+  const result = await prisma.product.update({
+    where: { id },
+    data: { isDeleted: true },
+  });
+
+  return result;
+};
+
+const updateProductIntoDB = async (payload: Partial<Product>, id: string) => {
+  const result = await prisma.product.update({
+    where: { id },
+    data: payload,
+  });
+
+  return result;
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
   getUsersProductFromDB,
+  deleteProductFromDB,
+  updateProductIntoDB,
 };
