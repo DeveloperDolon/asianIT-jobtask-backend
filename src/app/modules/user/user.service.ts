@@ -64,4 +64,14 @@ const loginUserFromDB = async (payload: TLoginUser) => {
   };
 };
 
-export const UserServices = { createUserIntoDB, loginUserFromDB };
+const getAllUsersFromDB = async () => {
+  const result = await prisma.user.findMany();
+
+  return result;
+};
+
+export const UserServices = {
+  createUserIntoDB,
+  loginUserFromDB,
+  getAllUsersFromDB,
+};
