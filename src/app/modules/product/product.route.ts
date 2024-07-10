@@ -8,4 +8,12 @@ router.post('/', auth('ADMIN', 'SUPER_ADMIN'), ProductController.createProduct);
 
 router.get('/', ProductController.getAllProduct);
 
+router.get('/:id', ProductController.getSingleProduct);
+
+router.get(
+  '/userProducts/:userId',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  ProductController.getUsersProduct,
+);
+
 export const ProductRouter = router;

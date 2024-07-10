@@ -26,8 +26,17 @@ const getSingleProductFromDB = async (id: string) => {
   return result;
 };
 
+const getUsersProductFromDB = async (userId: string) => {
+  const result = await prisma.product.findMany({
+    where: { userId: userId, isDeleted: false },
+  });
+
+  return result;
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
+  getUsersProductFromDB,
 };
