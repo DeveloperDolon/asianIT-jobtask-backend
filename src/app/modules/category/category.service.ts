@@ -3,7 +3,7 @@ import { Category, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const createCategoryIntoDB = async (payload: Category) => {
-  const result = prisma.category.create({
+  const result = await prisma.category.create({
     data: payload,
   });
 
@@ -11,11 +11,23 @@ const createCategoryIntoDB = async (payload: Category) => {
 };
 
 const getAllCategoryFromDB = async () => {
-  const result = prisma.category.findMany({
+  const result = await prisma.category.findMany({
     where: { isDelete: false },
   });
 
   return result;
 };
 
-export const CategoryServices = { createCategoryIntoDB, getAllCategoryFromDB };
+const getSingleCategoryFromDB = async (id: string) => {
+  const result = await prisma.category.findUnique({
+    where: { id },
+  });
+
+  return result;
+};
+
+export const CategoryServices = {
+  createCategoryIntoDB,
+  getAllCategoryFromDB,
+  getSingleCategoryFromDB,
+};
